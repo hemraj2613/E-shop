@@ -77,10 +77,15 @@
             </div>
             <!-- row.// -->
             <hr />
-            <a href="./product-detail.html" class="btn btn-primary">
+            {% if single_product.stock <= 0  %}
+              <p class="text-danger">This product is out of stock.</p>
+            {% else %}
+              <p class="text-success">In Stock: {{ single_product.stock }}</p>
+            <a href="{% url "add_cart" single_product.id %}" class="btn btn-primary">
               <span class="text">Add to cart</span>
               <i class="fas fa-shopping-cart"></i>
             </a>
+            {% endif %}
           </article>
           <!-- product-info-aside .// -->
         </main>
