@@ -4,9 +4,12 @@
 
 <section class="section-content padding-y bg">
 <div class="container">
+	{% if cart_items %}
 <div class="row">
 <aside class="col-lg-9">
+	
 <div class="card">
+	
 <table class="table table-borderless table-shopping-cart">
 <thead class="text-muted">
 <tr class="small text-uppercase">
@@ -24,7 +27,7 @@
 		<figure class="itemside align-items-center">
 			<div class="aside"><img src="{{cart_item.product.images.url}}" class="img-sm"></div>
 			<figcaption class="info">
-				<a href="#" class="title text-dark">{{ cart_item.product.product_name }}</a>
+				<a href="{{ cart_item.product.get_url }}" class="title text-dark">{{ cart_item.product.product_name }}</a>
 				<p class="text-muted small">Matrix: 25 Mpx <br> Brand: Canon</p>
 			</figcaption>
 		</figure>
@@ -33,7 +36,7 @@
 					<div class="col"> 
 						<div class="input-group input-spinner">
 							<div class="input-group-prepend">
-							<button class="btn btn-light" type="button" id="button-plus"> <i class="fa fa-minus"></i> </button>
+							<a href="{% url "remove_cart" cart_item.product.id %}" class="btn btn-light" type="button" id="button-plus"> <i class="fa fa-minus"></i> </a>
 							</div>
 							<input type="text" class="form-control"  value="{{ cart_item.quantity }}" min="1" max="10">
 							<div class="input-group-append">
@@ -49,12 +52,15 @@
 		</div> 
 	</td>
 	<td class="text-right"> 
-	<a href="" class="btn btn-danger"> Remove</a>
+	<a href="{% url "remove_cart_item" cart_item.product.id %}" class="btn btn-danger"> Remove</a>
 	</td>
 </tr>
 {% endfor %}
+
 </tbody>
 </table>
+
+
 </div> 
 
 	</aside> 
@@ -79,12 +85,19 @@
 				<img src="{% static "./images/misc/payments.png" %}" height="26">
 			</p>
 			<a href="./place-order.html" class="btn btn-primary btn-block"> Checkout </a>
-			<a href="./store.html" class="btn btn-light btn-block">Continue Shopping</a>
+			<a href="{% url "store" %}"  class="btn btn-light btn-block">Continue Shopping</a>
 		</div> 
 		</div> 
 
 </aside> 
 </div>
+{% else %}
+<div class="text-center">
+	<h2>Your cart is empty.</h2>
+	<a href="{% url "store" %}" class="btn btn-primary">Continue Shopping</a>
+</div>
+
+{% endif %}
 </div> 
 </section>
 {% endblock  %}
